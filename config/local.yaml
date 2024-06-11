@@ -1,0 +1,14 @@
+server:
+  port: 8080
+databases:
+  - user: root
+    password: 123456
+    host: localhost
+    dbName: test
+  - user: root
+    password: 123456
+    host: localhost
+    dbName: test
+security:
+  jwt:
+    key: maivankien

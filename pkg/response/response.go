@@ -1,6 +1,8 @@
 package response
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type ResponseData struct {
 	Code    int         `json:"code"`
@@ -17,7 +19,7 @@ func SuccessResponse(c *gin.Context, code int, data interface{}) {
 }
 
 func ErrorResponse(c *gin.Context, code int, msg string) {
-	c.JSON(code, ResponseData{
+	c.JSON(200, ResponseData{
 		Code:    code,
 		Message: message[code],
 		Data:    nil,

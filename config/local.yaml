@@ -1,14 +1,11 @@
 server:
   port: 8080
-databases:
-  - user: root
-    password: 123456
-    host: localhost
-    dbName: test
-  - user: root
-    password: 123456
-    host: localhost
-    dbName: test
-security:
-  jwt:
-    key: maivankien
+mysql:
+  host: localhost
+  port: 3306
+  username: root
+  password: 123456
+  dbname: shopdevgo
+  maxIdleConns: 10
+  maxOpenConns: 100
+  connMaxLifetime: 3600

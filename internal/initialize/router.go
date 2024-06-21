@@ -1,4 +1,4 @@
-package routers
+package initialize
 
 import (
 	"fmt"
@@ -24,7 +24,7 @@ func Logger() gin.HandlerFunc {
 	}
 }
 
-func NewRouter() *gin.Engine {
+func InitRouter() *gin.Engine {
 	r := gin.Default()
 
 	r.Use(middlewares.AuthenMiddleware(), Logger())

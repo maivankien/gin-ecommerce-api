@@ -1,2 +1,5 @@
 log
 config/production.yaml
+
+tests/**/*.html
+tests/**/*.out

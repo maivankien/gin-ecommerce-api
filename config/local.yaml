@@ -16,3 +16,8 @@ logger:
   compress:   true
   max_size:    500
   file_log_name: ./storages/logs/dev.001.log
+redis:
+  host: localhost
+  port: 6379
+  password: 
+  database: 0

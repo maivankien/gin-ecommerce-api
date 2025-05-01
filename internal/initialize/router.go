@@ -1,38 +1,42 @@
 package initialize
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
-	"github.com/maivankien/go-ecommerce-api/internal/controller"
-	"github.com/maivankien/go-ecommerce-api/internal/middlewares"
+	"github.com/maivankien/go-ecommerce-api/global"
+	"github.com/maivankien/go-ecommerce-api/internal/routers"
 )
 
-func Authen() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		fmt.Println("Before Authen middleware")
-		c.Next()
-		fmt.Println("Alter Authen middleware 2")
-	}
-}
-
-func Logger() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		fmt.Println("Before Logger middleware")
-		c.Next()
-		fmt.Println("Alter Logger middleware 2")
-	}
-}
-
 func InitRouter() *gin.Engine {
-	r := gin.Default()
+	var r *gin.Engine
 
-	r.Use(middlewares.AuthenMiddleware(), Logger())
-
-	v1 := r.Group("/v1")
-	{
-		v1.GET("/user/:uid", controller.NewUserController().GetUserByID)
+	if global.Config.Server.Mode == "dev" {
+		gin.SetMode(gin.DebugMode)
+		gin.ForceConsoleColor()
+		r = gin.Default()
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		r = gin.New()
 	}
 
+	// Middleware
+	// r.Use() // Logging
+	// r.Use() // Cross
+	// r.Use() // Limit global
+
+	manageRouter := routers.RouterGroupApp.Manage
+	userRouter := routers.RouterGroupApp.User
+
+	MainGroup := r.Group("/api/v1")
+	{
+		MainGroup.GET("/ping")
+	}
+	{
+		manageRouter.InitUserRouter(MainGroup)
+		manageRouter.InitAdminRouter(MainGroup)
+	}
+	{
+		userRouter.InitUserRouter(MainGroup)
+		userRouter.InitProductRouter(MainGroup)
+	}
 	return r
 }

@@ -2,15 +2,26 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/maivankien/go-ecommerce-api/internal/controller"
+	"github.com/maivankien/go-ecommerce-api/internal/repo"
+	"github.com/maivankien/go-ecommerce-api/internal/service"
 )
 
 type UserRouter struct{}
 
 func (ur *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	// Public router
+	// This is non dependency
+	userRepo := repo.NewUserRepository()
+	userService := service.NewUserService(userRepo)
+	userController := controller.NewUserController(userService)
+
+	// Wire
+	// Dependency Injection
+
 	userRouterPublic := Router.Group("/user")
 	{
-		userRouterPublic.POST("/register")
+		userRouterPublic.POST("/register", userController.Register)
 		userRouterPublic.POST(("/opt"))
 	}
 
